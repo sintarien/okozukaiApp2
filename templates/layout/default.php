@@ -15,7 +15,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
 
-    <?= $this->Html->css(['normalize.min', 'milligram.min', 'cake']) ?>
+    <?= $this->Html->css(['style.css']) ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
@@ -25,20 +25,20 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 
 </head>
 <body>
-    <nav class="top-nav">
+
+    <nav class="navbar navbar-dark bg-dark top-nav">
         <div class="top-nav-title">
-            <a href="<?= $this->Url->build('/') ?>"><span>Cake</span>PHP</a>
+            <h3>おこづかいApp</h3>
         </div>
         <div class="top-nav-links">
         <?php if($this->request->getSession()->read('Auth.User.id')):?>
-         ログイン中
-         <?= $this->Html->link(__('logout'), ['controller' => 'Users', 'action' => 'logout']) ?>
-         <?= $this->Html->link(__('moneys'), ['controller' => 'moneys', 'action' => 'index']) ?>
-        <?php else:?>
-         未ログイン
-         <?= $this->Html->link(__('login'), ['controller' => 'Users', 'action' => 'login']) ?>
-         <?= $this->Html->link(__('moneys'), ['controller' => 'moneys', 'action' => 'index']) ?>
-
+            <div class="dropdown dropdown_name">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><?= $username ?>
+                <span class="caret"></span></button>
+                <ul class="dropdown-menu dropdown_box">
+                <?= $this->Html->link(__('ログアウト'), ['controller' => 'Users', 'action' => 'logout']) ?>
+                </ul>
+            </div>
         <?php endif;?>
         </div>
     </nav>
@@ -58,3 +58,5 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>
+
+

@@ -36,6 +36,8 @@ class AppController extends Controller
             'unauthorizedRedirect' => $this->referer()
         ]);
  
-        $this->Auth->allow(['display', 'view', 'index']);
+        $this->Auth->allow(['display', 'view']);
+        $username = $this->request->getSession()->read('Auth.User.username');
+        $this->set(compact('username'));
     }
 }

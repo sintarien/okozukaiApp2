@@ -1,11 +1,11 @@
 
-<div class="users form large-9 medium-8 columns content">
+<div class="login_box">
 <?= $this->Form->create() ?>
-    <fieldset>
-    <legend><?= __('ログイン') ?></legend>
-    <?= $this->Form->control('email') ?>
-    <?= $this->Form->control('password') ?>
-    </fieldset>
-<?= $this->Form->button('ログイン') ?>
+    <legend class=""><h2>ログイン</h2></legend>
+    <?= $this->Form->control('email',array( 'class' => "form-control")) ?>
+    <?= $this->Form->control('password',array( 'class' => "form-control")) ?>
+    <div class="login_button">
+      <?= $this->Form->button('ログイン', ['class' => 'btn btn-primary'] ) ?>
+    </div>
 <?= $this->Form->end() ?>
 </div>

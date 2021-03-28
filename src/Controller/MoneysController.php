@@ -9,35 +9,28 @@ class MoneysController extends AppController
 {
     public function index()
     {
-      $reason = array(1 =>'給料',2 =>'その他');
-      $this->set(compact('reason'));
+
+        $reason = array(1 =>'給料',2 =>'その他');
+        $this->set(compact('reason'));
     }
     public function get()
     {
-        #以下の1行を追加
-        // $this->response->header("Access-Control-Allow-Origin: *");
-        $data = $this->paginate($this->Moneys);
+        //ログインしているユーザーのデータを取得
+        $data = $this->Moneys->find('all', ['conditions' => ['user_id' => $this->request->getSession()->read('Auth.User.id')]]);
         $this->set([
           'data' => $data,
           '_serialize' => ['data'],
-                      #以下の1行を追加
-                      // '_jsonp' => true
       ]);
     }
 
     public function add(){
-
-        // $data = $this->Data->newEmptyEntity();
-        // $data = $this->Data->patchEntity($data, $this->request->getData());
         $deposit = $this->request->getData('deposit');//入金
         $withdrawal = $this->request->getData('withdrawal');//出金
         $purpose = $this->request->getData('purpose');//使用用途
         $reason = $this->request->getData('reason');//収入理由
-        $totalLastMoney = $this->Moneys->find()->last();
+        $totalLastMoney = $this->Moneys->find('all', ['conditions' => ['user_id' => $this->request->getSession()->read('Auth.User.id')]])->last();
         $total = $totalLastMoney->total;
-
         $id = $this->request-> getSession()->read('Auth.User.id');
-        // $data = $this->request->data('request');
 
         if($this->request->getData('type') === "0"){
             $total = $total + $deposit;
@@ -63,7 +56,7 @@ class MoneysController extends AppController
       public function isAuthorized($user)
       {
           $action = $this->request->getParam('action');
-          if (in_array($action, ['add', 'tags','get'])) {
+          if (in_array($action, ['add', 'index','get'])) {
               return true;
           }
           $slug = $this->request->getParam('pass.0');
@@ -74,4 +67,5 @@ class MoneysController extends AppController
           $article = $this->Articles->findBySlug($slug)->first();
           return $article->user_id === $user['id'];
       }
+
 }

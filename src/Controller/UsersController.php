@@ -23,7 +23,7 @@ class UsersController extends AppController
         $this->set(compact('user'));
     }
 
- 
+
     public function add()
     {
         $user = $this->Users->newEmptyEntity();
@@ -75,7 +75,7 @@ class UsersController extends AppController
             $user = $this->Auth->identify();
             if ($user) {
                 $this->Auth->setUser($user);
-                return $this->redirect($this->Auth->redirectUrl('/users'));
+                return $this->redirect($this->Auth->redirectUrl('/moneys'));
             }
             $this->Flash->error('ユーザー名またはパスワードが不正です。');
         }
@@ -90,5 +90,20 @@ class UsersController extends AppController
     {
         parent::initialize();
         $this->Auth->allow(['logout', 'add']);
+    }
+
+    public function isAuthorized($user)
+    {
+        $action = $this->request->getParam('action');
+        if (in_array($action, [])) {
+            return true;
+        }
+        $slug = $this->request->getParam('pass.0');
+        if (!$slug) {
+            return false;
+        }
+
+        $article = $this->Articles->findBySlug($slug)->first();
+        return $article->user_id === $user['id'];
     }
 }

@@ -1,0 +1,41 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    width: 100%;
+    color: #ddd;
+    display: flex;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+.top-nav {
+    width: auto;
+    height: 80px;
+    color: #fff;
+    margin-bottom: 100px;
+}
+.button_box {
+    /* background-color: coral; */
+    padding: 30px;
+    text-align: right;
+}
+.dropdown_box {
+    color: crimson;
+}
+.moneys_box {
+}
+.dropdown_name {
+    margin-right: 50px;
+}
+.login_box {
+    /* background-color: crimson; */
+    width: 100%;
+    height: 500px;
+}
+.login_button {
+    margin-top: 30px;
+}
