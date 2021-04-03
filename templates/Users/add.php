@@ -1,28 +1,18 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\User $user
- */
-?>
-<div class="row">
-    <aside class="column">
-        <div class="side-nav">
-            <h4 class="heading"><?= __('Actions') ?></h4>
-            <?= $this->Html->link(__('List Users'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
-        </div>
-    </aside>
-    <div class="column-responsive column-80">
-        <div class="users form content">
+<div>
+    <div>
+        <div>
             <?= $this->Form->create($user) ?>
             <fieldset>
-                <legend><?= __('Add User') ?></legend>
+                <legend class=""><h2>ユーザー作成</h2></legend>
                 <?php
-                    echo $this->Form->control('username');
-                    echo $this->Form->control('email');
-                    echo $this->Form->control('password');
+                    echo $this->Form->control('username',array( 'class' => "form-control"));
+                    echo $this->Form->control('email',array( 'class' => "form-control"));
+                    echo $this->Form->control('password',array( 'class' => "form-control"));
                 ?>
             </fieldset>
-            <?= $this->Form->button(__('Submit')) ?>
+            <div class="login_button">
+              <?= $this->Form->button(__('アカウント作成'), ['class' => 'btn btn-primary']) ?>
+            </div>
             <?= $this->Form->end() ?>
         </div>
     </div>

@@ -22,13 +22,14 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->fetch('script') ?>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 
 </head>
 <body>
 
     <nav class="navbar navbar-dark bg-dark top-nav">
         <div class="top-nav-title">
-            <h3>おこづかいApp</h3>
+          <?= $this->Html->link(__('おこづかいApp'), ['controller' => 'Moneys', 'action' => 'index'],['class' => 'title']) ?>
         </div>
         <div class="top-nav-links">
         <?php if($this->request->getSession()->read('Auth.User.id')):?>
@@ -39,6 +40,11 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                 <?= $this->Html->link(__('ログアウト'), ['controller' => 'Users', 'action' => 'logout']) ?>
                 </ul>
             </div>
+        <?php else:?>
+            <ul class="list_box">
+                <li><?= $this->Html->link(__('アカウント作成'), ['controller' => 'Users', 'action' => 'add'],['class' => 'btn btn-success box']) ?></li>
+                <li><?= $this->Html->link(__('ログイン'), ['controller' => 'Users', 'action' => 'login'],['class' => 'btn btn-primary box']) ?></li>
+            </ul>
         <?php endif;?>
         </div>
     </nav>

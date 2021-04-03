@@ -26,8 +26,7 @@ a {
 .dropdown_box {
     color: crimson;
 }
-.moneys_box {
-}
+
 .dropdown_name {
     margin-right: 50px;
 }
@@ -38,4 +37,35 @@ a {
 }
 .login_button {
     margin-top: 30px;
+    float: right;
+}
+.box {
+    float: left;
+}
+
+.boxContainer {
+    overflow: hidden;
+}
+.list_box li {
+    float: left;
+    margin-right: 20px;
+    list-style: none;
+}
+
+.submit_box {
+    float: right;
+    margin-top: 30px;
+}
+.under_box {
+    margin-top: 15px;
+}
+
+.title:link,
+.title:visited,
+.title:hover,
+.title:active {
+    font-size: 30px;
+    color: white;
+    margin-left: 10px;
+    text-decoration: none;
 }

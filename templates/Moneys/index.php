@@ -16,19 +16,17 @@
 <div class="modal fade" id="deposit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-
       <div class="modal-body">
     <?php echo $this->Form->create (); ?>
-    <h3>deposit 入金、収入</h3>
+    <h3>入金額</h3>
     <!-- 入金、収入	 -->
-    <?php echo $this->Form->control('deposit',array('id' => 'deposit','label' => '入金額')); ?>
+    <?php echo $this->Form->control('deposit',array('id' => 'deposit','label' => false,"class" => "form-control")); ?>
     <!-- 収入理由 -->
-    <h3>reason 収入理由</h3>
-    <?php echo $this->Form->control('reason',array('id' => 'reason','label' => '入金理由','options' => $reason)); ?>
-    <?php echo $this->Form->submit('送信',['id' => 'deposit_send']); ?>
+    <h3 class="under_box">収入理由</h3>
+    <?php echo $this->Form->control('reason',array('id' => 'reason','label' => false,'options' => $reason,"class" => "form-control")); ?>
+    <?php echo $this->Form->submit('送信',array('id' => 'deposit_send',"class" => "btn btn-primary submit_box")); ?>
     <?php echo $this->Form->end (); ?>
       </div>
-
     </div>
   </div>
 </div>
@@ -41,12 +39,13 @@
       <div class="modal-body">
     <?php echo $this->Form->create (); ?>
     <!-- 出金、支出	 -->
-    <?php echo $this->Form->control('withdrawal',array('id' => 'withdrawal','label' => '入金額')); ?>
+    <h3>出金額</h3>
+    <?php echo $this->Form->control('withdrawal',array('id' => 'withdrawal','label' => false,"class" => "form-control")); ?>
     <!-- 使用用途 -->
-    <h3>purpose 使用用途</h3>
-    <?php echo $this->Form->textarea("purpose",['cols'=> 20, 'rows' => 4,'id' => 'purpose']); ?>
+    <h3 class="under_box"> 使用用途</h3>
+    <?php echo $this->Form->textarea("purpose",['cols'=> 20, 'rows' => 4,'id' => 'purpose','label' => false,"class" => "form-control"]); ?>
 
-    <?php echo $this->Form->submit('送信',['id' => 'withdrawal_send']); ?>
+    <?php echo $this->Form->submit('送信',array('id' => 'withdrawal_send',"class" => "btn btn-primary submit_box")); ?>
     <?php echo $this->Form->end (); ?>
       </div>
 
@@ -87,10 +86,12 @@
 
 <script>
 const income_reason_js = ['','給料','その他']
+var total = 0;//残高と出金額を比べる為の変数
 
 $(function() {
     get();
 });
+
 
 function get(){
     $.getJSON("http://localhost/okozukai_app_2/moneys/get.json", function(data){
@@ -106,7 +107,7 @@ function get(){
                             +'</td></tr>';
             $("#data").append(money_data);
             $('#textdata').val('');
-
+            total = data.data[i].total;
         }
     })
 }
@@ -129,6 +130,7 @@ $(document).ready(function()
           alert('金額を入力してください');
           return false;
         }
+
         if (!data.reason) {
           alert('収入理由を選択してください');
           return false;
@@ -180,10 +182,17 @@ $(document).ready(function()
                     reason : $('#reason').val(),
                     type : 1
                     };
-
         //出金額が空かをチェック
         if (!data.withdrawal) {
           alert('金額を入力してください');
+          return false;
+        }
+        if (data.withdrawal == 0) {
+          alert('1円以上の金額を入力してください');
+          return false;
+        }
+        if (data.withdrawal > total ) {
+          alert('残高が足りません');
           return false;
         }
         if (!data.purpose) {
