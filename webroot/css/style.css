@@ -2,7 +2,12 @@
     margin: 0;
     padding: 0;
 }
-
+.menu {
+    display: none;
+}
+.responsive_table {
+    display: none;
+}
 a {
     width: 100%;
     color: #ddd;
@@ -16,11 +21,26 @@ a {
     width: auto;
     height: 80px;
     color: #fff;
-    margin-bottom: 100px;
+    margin-bottom: 50px;
+}
+body,
+#wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+footer {
+    margin-top: auto;
+    width: auto;
+    height: 80px;
+    color: #fff;
+}
+.footer_box {
+    margin-left: auto;
+    margin-right: auto;
 }
 .button_box {
-    /* background-color: coral; */
-    padding: 30px;
+    padding: 10px;
     text-align: right;
 }
 .dropdown_box {
@@ -68,4 +88,148 @@ a {
     color: white;
     margin-left: 10px;
     text-decoration: none;
+}
+.res_box {
+    display: none;
+}
+.sub_table {
+    display: none;
+}
+/* スマートフォンサイズ(425px)程度の画面の大きさ以下に適用される設定です */
+@media screen and (max-width: 425px) {
+    .title {
+        /* background-color: blue; */
+        /* display: none; */
+    }
+    .responsive_table {
+        display: initial;
+    }
+    .main_table {
+        display: none;
+    }
+    .main_box {
+        display: none;
+    }
+    .menu {
+        display: initial;
+    }
+    .sub_table {
+        display: initial;
+    }
+    .res_box {
+        display: initial;
+        margin-bottom: 150px;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    a {
+        width: 100%;
+        color: #ddd;
+        display: flex;
+        height: 40px;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+    }
+    .top-nav {
+        width: auto;
+        height: 80px;
+        color: #fff;
+        margin-bottom: 50px;
+    }
+    body,
+    #wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+    footer {
+        margin-top: 50px;
+        width: auto;
+        height: 80px;
+        color: #fff;
+    }
+    .footer_box {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .button_box {
+        padding: 10px;
+        text-align: right;
+    }
+    .dropdown_box {
+        color: crimson;
+    }
+
+    .dropdown_name {
+        margin-right: 50px;
+    }
+    .login_box {
+        /* background-color: crimson; */
+        width: 100%;
+        height: 500px;
+    }
+    .login_button {
+        margin-top: 30px;
+        float: right;
+        size: 20px;
+    }
+    .box {
+        float: left;
+    }
+
+    .boxContainer {
+        overflow: hidden;
+    }
+    .list_box li {
+        float: left;
+        margin-right: 20px;
+        list-style: none;
+        display: none;
+    }
+
+    .submit_box {
+        float: right;
+        margin-top: 30px;
+    }
+    .under_box {
+        margin-top: 15px;
+    }
+
+    .title:link,
+    .title:visited,
+    .title:hover,
+    .title:active {
+        /* font-size: 10px; */
+        color: white;
+        margin-left: auto;
+        margin-right: auto;
+        text-decoration: none;
+    }
+    .row_table,
+    .row_table td,
+    .row_table th {
+        border: 1px solid #cbced2;
+        border-collapse: collapse;
+        text-align: center;
+    }
+
+    .hedaer_date {
+        background: #01214d;
+        color: #fff;
+        /* padding: 4px 12px;
+    display: block; */
+        width: 52%;
+    }
+
+    .row_table td {
+        background: #f5f6f8;
+        /* padding: 4px 12px; */
+        /* display: block; */
+        width: 100%;
+    }
 }

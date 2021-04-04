@@ -63,8 +63,9 @@
     出金
     </button>
   </div>
+
+    <div class="main_table">
     <h3><?= __('取引履歴') ?></h3>
-    <div class="table-responsive">
      <table class="table table-striped">
         <thead>
           <tr>
@@ -76,17 +77,30 @@
             <th scope="col">残高履歴</th>
           </tr>
         </thead>
-        <tbody id="data">
+        <tbody id="main_data">
         </tbody>
       </table>
     </div>
 </div>
+
+
+
+<!-- スマートフォン用のテーブルタグ -->
+<div class="responsive_table">
+  <table class="row_table">
+    <thead id="responsive_data">
+    </thead>
+  </table>
+</div>
+
 </body>
 </html>
 
 <script>
 const income_reason_js = ['','給料','その他']
-var total = 0;//残高と出金額を比べる為の変数
+
+//残高と出金額を比べる為の変数
+var total = 0;
 
 $(function() {
     get();
@@ -95,20 +109,82 @@ $(function() {
 
 function get(){
     $.getJSON("http://localhost/okozukai_app_2/moneys/get.json", function(data){
-        $("#data").empty();
+        $("#main_data").empty();
+        $("#responsive_data").empty();
         var money_data = '';
+        var withdrawal;
+        var deposit;
+        var reason;
+        /* メインサイズの要素を返す */
         for(var i in data.data){
+          if(data.data[i].withdrawal === 0){
+            withdrawal = "&nbsp";
+          }else{
+            withdrawal = data.data[i].withdrawal;
+          }
+          if(data.data[i].deposit === 0){
+            deposit = "&nbsp";
+          }else{
+            deposit = data.data[i].deposit;
+          }
+          //data.data[i].purpose空文字だったら"&nbsp"で空白を表示する
+          if(data.data[i].purpose === ""){
+            purpose = "&nbsp";
+          }else{
+            purpose = data.data[i].purpose;
+          }
             var money_data = '<tr><td>'+ formatDate(data.data[i].created_at)
-                            + '</td><td>'+ data.data[i].deposit
+                            + '</td><td>'+ deposit
                             + '</td><td>'+ income_reason_js[data.data[i].reason]
-                            + '</td><td>'+ data.data[i].withdrawal
-                            + '</td><td>'+ data.data[i].purpose
+                            + '</td><td>'+ withdrawal
+                            + '</td><td>'+ purpose
                             + '</td><td>'+ data.data[i].total
                             +'</td></tr>';
-            $("#data").append(money_data);
-            $('#textdata').val('');
+            $("#main_data").append(money_data);
             total = data.data[i].total;
         }
+        /* スマートフォン用の要素を返す */
+        for(var i in data.data){
+          if(data.data[i].withdrawal === 0){
+            withdrawal = "&nbsp";
+          }else{
+            withdrawal = data.data[i].withdrawal;
+          }
+          if(data.data[i].deposit === 0){
+            deposit = "&nbsp";
+          }else{
+            deposit = data.data[i].deposit;
+          }
+          //data.data[i].purpose空文字だったら"&nbsp"で空白を表示する
+          if(data.data[i].purpose === ""){
+            purpose = "&nbsp";
+          }else{
+            purpose = data.data[i].purpose;
+          }
+          if(income_reason_js[data.data[i].reason] === ""){
+            reason = "&nbsp";
+          }else{
+            reason = income_reason_js[data.data[i].reason];
+          }
+            var money_data =
+                              '<tr><th class = "hedaer_date">取引日付</th><td>'
+                            + formatDate(data.data[i].created_at)
+                            + '<tr><th>入金履歴</th><td>'
+                            + deposit
+                            + '<tr><th>入金理由</th><td>'
+                            + reason
+                            + '<tr><th>出金履歴</th><td>'
+                            + withdrawal
+                            + '<tr><th>出金理由</th><td>'
+                            + purpose
+                            + '<tr><th>残高履歴</th><td>'
+                            + data.data[i].total
+                            +'</td></tr>';
+            $("#responsive_data").append(money_data);
+            total = data.data[i].total;
+        }
+        //ループを抜けた後にフォームを初期化
+        $('#textdata').val('');
     })
 }
 

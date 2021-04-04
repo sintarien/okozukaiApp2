@@ -26,37 +26,72 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 
 </head>
 <body>
-
-    <nav class="navbar navbar-dark bg-dark top-nav">
-        <div class="top-nav-title">
-          <?= $this->Html->link(__('おこづかいApp'), ['controller' => 'Moneys', 'action' => 'index'],['class' => 'title']) ?>
+    <div id="wrapper">
+        <div class="main_box">
+            <nav class="navbar navbar-dark bg-dark top-nav header_box">
+                <div class="top-nav-title">
+                <?= $this->Html->link(__('おこづかいApp'), ['controller' => 'Moneys', 'action' => 'index'],['class' => 'title']) ?>
+                </div>
+                <div class="top-nav-links">
+                <?php if($this->request->getSession()->read('Auth.User.id')):?>
+                    <div class="dropdown dropdown_name">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><?= $username ?>
+                        <span class="caret"></span></button>
+                        <ul class="dropdown-menu dropdown_box">
+                        <?= $this->Html->link(__('ログアウト'), ['controller' => 'Users', 'action' => 'logout']) ?>
+                        </ul>
+                    </div>
+                <?php else:?>
+                    <ul class="list_box">
+                        <li><?= $this->Html->link(__('アカウント作成'), ['controller' => 'Users', 'action' => 'add'],['class' => 'btn btn-success box']) ?></li>
+                        <li><?= $this->Html->link(__('ログイン'), ['controller' => 'Users', 'action' => 'login'],['class' => 'btn btn-primary box']) ?></li>
+                    </ul>
+                <?php endif;?>
+                </div>
+            </nav>
         </div>
-        <div class="top-nav-links">
-        <?php if($this->request->getSession()->read('Auth.User.id')):?>
-            <div class="dropdown dropdown_name">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><?= $username ?>
-                <span class="caret"></span></button>
-                <ul class="dropdown-menu dropdown_box">
-                <?= $this->Html->link(__('ログアウト'), ['controller' => 'Users', 'action' => 'logout']) ?>
+
+        <!-- レスポンシブ用のヘッダー -->
+        <div class="res_box">
+            <nav class="navbar navbar-dark bg-dark navbar-expand-lg fixed-top ">
+                <div class="top-nav-title">
+                <?= $this->Html->link(__('おこづかいApp'), ['controller' => 'Moneys', 'action' => 'index'],['class' => 'title']) ?>
+                </div>
+                <div class="button">
+                    <button class="navbar-toggler a" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                <ul class="navbar-nav">
+                <?php if($this->request->getSession()->read('Auth.User.id')):?>
+                    <li class="nav-item active">
+                    <?= $this->Html->link(__('ログアウト'), ['controller' => 'Users', 'action' => 'logout']) ?>
+                    </li>
+                <?php else:?>
+                    <li class="nav-item active">
+                    <?= $this->Html->link(__('アカウント作成'), ['controller' => 'Users', 'action' => 'add']) ?>
+                    </li>
+                    <li class="nav-item active">
+                    <?= $this->Html->link(__('ログイン'), ['controller' => 'Users', 'action' => 'login']) ?>
+                    </li>
+                <?php endif;?>
                 </ul>
-            </div>
-        <?php else:?>
-            <ul class="list_box">
-                <li><?= $this->Html->link(__('アカウント作成'), ['controller' => 'Users', 'action' => 'add'],['class' => 'btn btn-success box']) ?></li>
-                <li><?= $this->Html->link(__('ログイン'), ['controller' => 'Users', 'action' => 'login'],['class' => 'btn btn-primary box']) ?></li>
-            </ul>
-        <?php endif;?>
+                </div>
+            </nav>
         </div>
-    </nav>
-    <main class="main">
-        <div class="container">
-            <?= $this->Flash->render() ?>
-            <?= $this->fetch('content') ?>
-        </div>
-    </main>
-    <footer>
-    </footer>
 
+
+        <main class="main">
+            <div class="container">
+                <?= $this->Flash->render() ?>
+                <?= $this->fetch('content') ?>
+            </div>
+        </main>
+        <footer class="navbar navbar-dark bg-dark ">
+            <div class="footer_box">©OkozukaiApp</div>
+        </footer>
+    </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
