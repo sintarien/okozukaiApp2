@@ -12,100 +12,92 @@
 </head>
 <body>
 
-<!-- Modal -->
+<!-- 入金Modal -->
 <div class="modal fade" id="deposit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-body">
-    <?php echo $this->Form->create (); ?>
-    <h3>入金額</h3>
-    <!-- 入金、収入	 -->
-    <?php echo $this->Form->control('deposit',array('id' => 'deposit','label' => false,"class" => "form-control")); ?>
-    <!-- 収入理由 -->
-    <h3 class="under_box">収入理由</h3>
-    <?php echo $this->Form->control('reason',array('id' => 'reason','label' => false,'options' => $reason,"class" => "form-control")); ?>
-    <?php echo $this->Form->submit('送信',array('id' => 'deposit_send',"class" => "btn btn-primary submit_box")); ?>
-    <?php echo $this->Form->end (); ?>
+        <?php echo $this->Form->create (); ?>
+        <h3>入金額</h3>
+        <!-- 入金、収入	 -->
+        <?php echo $this->Form->control('deposit',array('id' => 'deposit','label' => false,"class" => "form-control")); ?>
+        <!-- 収入理由 -->
+        <h3 class="under_box">収入理由</h3>
+        <?php echo $this->Form->control('reason',array('id' => 'reason','label' => false,'options' => $reason,"class" => "form-control")); ?>
+        <?php echo $this->Form->submit('送信',array('id' => 'deposit_send',"class" => "btn btn-primary submit_box")); ?>
+        <?php echo $this->Form->end (); ?>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal -->
+<!-- 出金Modal -->
 <div class="modal fade" id="withdrawal_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-
       <div class="modal-body">
-    <?php echo $this->Form->create (); ?>
-    <!-- 出金、支出	 -->
-    <h3>出金額</h3>
-    <?php echo $this->Form->control('withdrawal',array('id' => 'withdrawal','label' => false,"class" => "form-control")); ?>
-    <!-- 使用用途 -->
-    <h3 class="under_box"> 使用用途</h3>
-    <?php echo $this->Form->textarea("purpose",['cols'=> 20, 'rows' => 4,'id' => 'purpose','label' => false,"class" => "form-control"]); ?>
-
-    <?php echo $this->Form->submit('送信',array('id' => 'withdrawal_send',"class" => "btn btn-primary submit_box")); ?>
-    <?php echo $this->Form->end (); ?>
+        <?php echo $this->Form->create (); ?>
+        <!-- 出金、支出	 -->
+        <h3>出金額</h3>
+        <?php echo $this->Form->control('withdrawal',array('id' => 'withdrawal','label' => false,"class" => "form-control")); ?>
+        <!-- 使用用途 -->
+        <h3 class="under_box"> 使用用途</h3>
+        <?php echo $this->Form->textarea("purpose",['cols'=> 20, 'rows' => 4,'id' => 'purpose','label' => false,"class" => "form-control"]); ?>
+        <?php echo $this->Form->submit('送信',array('id' => 'withdrawal_send',"class" => "btn btn-primary submit_box")); ?>
+        <?php echo $this->Form->end (); ?>
       </div>
-
     </div>
   </div>
 </div>
 
-
-<div class="moneys_box index content">
-  <div class="button_box">
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deposit_modal">
-    入金
-    </button>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#withdrawal_modal">
-    出金
-    </button>
+  <!-- PC用のテーブルタグ -->
+  <div class="moneys_box index content">
+    <div class="button_box">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deposit_modal">
+      入金
+      </button>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#withdrawal_modal">
+      出金
+      </button>
+    </div>
+      <div class="main_table">
+      <h3><?= __('取引履歴') ?></h3>
+      <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">取引日付</th>
+              <th scope="col">入金履歴</th>
+              <th scope="col">入金理由</th>
+              <th scope="col">出金履歴</th>
+              <th scope="col">出金理由</th>
+              <th scope="col">残高履歴</th>
+            </tr>
+          </thead>
+          <tbody id="main_data">
+          </tbody>
+        </table>
+      </div>
   </div>
 
-    <div class="main_table">
-    <h3><?= __('取引履歴') ?></h3>
-     <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">取引日付</th>
-            <th scope="col">入金履歴</th>
-            <th scope="col">入金理由</th>
-            <th scope="col">出金履歴</th>
-            <th scope="col">出金理由</th>
-            <th scope="col">残高履歴</th>
-          </tr>
-        </thead>
-        <tbody id="main_data">
-        </tbody>
-      </table>
-    </div>
-</div>
-
-
-
-<!-- スマートフォン用のテーブルタグ -->
-<div class="responsive_table">
-  <table class="row_table">
-    <thead id="responsive_data">
-    </thead>
-  </table>
-</div>
-
+  <!-- スマートフォン用のテーブルタグ -->
+  <div class="responsive_table">
+    <table class="row_table">
+      <thead id="responsive_data">
+      </thead>
+    </table>
+  </div>
 </body>
 </html>
 
 <script>
 const income_reason_js = ['','給料','その他']
-
 //残高と出金額を比べる為の変数
 var total = 0;
 
+//indexページにアクセスする度に取引履歴を取得
 $(function() {
     get();
 });
-
 
 function get(){
     $.getJSON("http://localhost/okozukai_app_2/moneys/get.json", function(data){
@@ -115,7 +107,9 @@ function get(){
         var withdrawal;
         var deposit;
         var reason;
-        /* メインサイズの要素を返す */
+
+        /* メインサイズ用画面の要素を返す */
+        //空文字だったら"&nbsp"で空白を表示する
         for(var i in data.data){
           if(data.data[i].withdrawal === 0){
             withdrawal = "&nbsp";
@@ -127,7 +121,6 @@ function get(){
           }else{
             deposit = data.data[i].deposit;
           }
-          //data.data[i].purpose空文字だったら"&nbsp"で空白を表示する
           if(data.data[i].purpose === ""){
             purpose = "&nbsp";
           }else{
@@ -143,7 +136,8 @@ function get(){
             $("#main_data").append(money_data);
             total = data.data[i].total;
         }
-        /* スマートフォン用の要素を返す */
+
+        /* スマートフォン用画面の要素を返す */
         for(var i in data.data){
           if(data.data[i].withdrawal === 0){
             withdrawal = "&nbsp";
@@ -155,7 +149,6 @@ function get(){
           }else{
             deposit = data.data[i].deposit;
           }
-          //data.data[i].purpose空文字だったら"&nbsp"で空白を表示する
           if(data.data[i].purpose === ""){
             purpose = "&nbsp";
           }else{
@@ -206,7 +199,12 @@ $(document).ready(function()
           alert('金額を入力してください');
           return false;
         }
-
+        //入金額が1円以上かをチェック
+        if (data.deposit <= 0) {
+          alert('1円以上の金額を入力してください');
+          return false;
+        }
+        //収入理由が空かをチェック
         if (!data.reason) {
           alert('収入理由を選択してください');
           return false;
@@ -227,10 +225,9 @@ $(document).ready(function()
             success: function(data,dataType)
             {
                 get();
-                // alert('Success');
                 //モーダルを消す
                 $('#deposit_modal').modal('hide');
-                //フォームの中身を初期化
+                //各フォームの中身を初期化
                 $('#deposit').val("");
                 $('#reason').val("");
                 $('#withdrawal').val("");
@@ -263,19 +260,22 @@ $(document).ready(function()
           alert('金額を入力してください');
           return false;
         }
-        if (data.withdrawal == 0) {
+        //出金額が1円以上かをチェック
+        if (data.withdrawal <= 0) {
           alert('1円以上の金額を入力してください');
           return false;
         }
+        //残高が出金額より多いかをチェック
         if (data.withdrawal > total ) {
           alert('残高が足りません');
           return false;
         }
+        //出金理由が空かをチェック
         if (!data.purpose) {
           alert('出金理由を入力してください');
           return false;
         }
-
+        //入力が半角数値かをチェック
         if ($.isNumeric(data.withdrawal)) {
           alert(data.withdrawal+'円出金しました');
         } else {

@@ -1,28 +1,22 @@
 <?php
 declare(strict_types=1);
-
 namespace App\Controller;
 
 class UsersController extends AppController
 {
-
     public function index()
     {
         $users = $this->paginate($this->Users);
-
         $this->set(compact('users'));
     }
-
 
     public function view($id = null)
     {
         $user = $this->Users->get($id, [
             'contain' => ['Moneys'],
         ]);
-
         $this->set(compact('user'));
     }
-
 
     public function add()
     {
@@ -48,7 +42,6 @@ class UsersController extends AppController
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
-
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
@@ -65,7 +58,6 @@ class UsersController extends AppController
         } else {
             $this->Flash->error(__('The user could not be deleted. Please, try again.'));
         }
-
         return $this->redirect(['action' => 'index']);
     }
 
@@ -103,8 +95,5 @@ class UsersController extends AppController
         if (!$slug) {
             return false;
         }
-
-        $article = $this->Articles->findBySlug($slug)->first();
-        return $article->user_id === $user['id'];
     }
 }

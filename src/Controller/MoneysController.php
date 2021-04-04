@@ -1,6 +1,5 @@
 <?php
 declare(strict_types=1);
-
 namespace App\Controller;
 use Cake\Datasource\ConnectionManager;
 use Cake\Event\Event;
@@ -9,7 +8,6 @@ class MoneysController extends AppController
 {
     public function index()
     {
-
         $reason = array(1 =>'給料',2 =>'その他');
         $this->set(compact('reason'));
     }
@@ -63,9 +61,6 @@ class MoneysController extends AppController
           if (!$slug) {
               return false;
           }
-
-          $article = $this->Articles->findBySlug($slug)->first();
-          return $article->user_id === $user['id'];
       }
 
 }
